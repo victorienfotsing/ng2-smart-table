@@ -1,6 +1,6 @@
 {
-  "name": "ng2-smart-table",
-  "version": "1.7.1",
+  "name": "@vfot/ng2-smart-table",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

@@ -12,6 +12,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 export class BasicExampleSourceComponent {
 
   settings = {
+    actionList: [{title: 'action'}],
     columns: {
       id: {
         title: 'ID',

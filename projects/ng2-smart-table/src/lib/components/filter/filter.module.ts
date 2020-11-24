@@ -12,6 +12,7 @@ import { InputFilterComponent } from './filter-types/input-filter.component';
 import { SelectFilterComponent } from './filter-types/select-filter.component';
 import { DefaultFilter } from './filter-types/default-filter';
 import { FilterDefault } from './filter-default';
+import {NbFormFieldModule, NbIconModule, NbInputModule} from '@nebular/theme';
 
 const FILTER_COMPONENTS = [
   FilterDefault,
@@ -31,6 +32,9 @@ const FILTER_COMPONENTS = [
     FormsModule,
     ReactiveFormsModule,
     Ng2CompleterModule,
+    NbIconModule,
+    NbInputModule,
+    NbFormFieldModule,
   ],
   declarations: [
     ...FILTER_COMPONENTS,

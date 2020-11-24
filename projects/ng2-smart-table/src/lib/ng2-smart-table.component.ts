@@ -21,6 +21,7 @@ export class Ng2SmartTableComponent implements OnChanges, OnDestroy {
   @Output() rowSelect = new EventEmitter<any>();
   @Output() rowDeselect = new EventEmitter<any>();
   @Output() userRowSelect = new EventEmitter<any>();
+  @Output() actionTriggered = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
   @Output() edit = new EventEmitter<any>();
   @Output() create = new EventEmitter<any>();

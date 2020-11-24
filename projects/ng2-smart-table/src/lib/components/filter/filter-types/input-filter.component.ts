@@ -7,12 +7,16 @@ import { DefaultFilter } from './default-filter';
 @Component({
   selector: 'input-filter',
   template: `
-    <input
-      [ngClass]="inputClass"
-      [formControl]="inputControl"
-      class="form-control"
-      type="text"
-      placeholder="{{ column.title }}"/>
+    <nb-form-field>
+      <input
+        nbInput
+        [ngClass]="inputClass"
+        [formControl]="inputControl"
+        class="form-control"
+        type="text"
+        placeholder="{{ column.title }}"/>
+      <nb-icon nbSuffix icon="search-outline" pack="eva"></nb-icon>
+    </nb-form-field>
   `,
 })
 export class InputFilterComponent extends DefaultFilter implements OnInit, OnChanges {

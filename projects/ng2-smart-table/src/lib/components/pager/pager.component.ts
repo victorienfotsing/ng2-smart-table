@@ -1,64 +1,45 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { Subscription } from 'rxjs';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {Subscription} from 'rxjs';
 
-import { DataSource } from '../../lib/data-source/data-source';
+import {DataSource} from '../../lib/data-source/data-source';
 
 @Component({
   selector: 'ng2-smart-table-pager',
   styleUrls: ['./pager.component.scss'],
   template: `
-    <nav *ngIf="shouldShow()" class="ng2-smart-pagination-nav">
-      <ul class="ng2-smart-pagination pagination">
-        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled: getPage() == 1}">
-          <a class="ng2-smart-page-link page-link" href="#"
-          (click)="getPage() == 1 ? false : paginate(1)" aria-label="First">
-            <span aria-hidden="true">&laquo;</span>
-            <span class="sr-only">First</span>
-          </a>
-        </li>
-        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled: getPage() == 1}">
-          <a class="ng2-smart-page-link page-link page-link-prev" href="#"
-             (click)="getPage() == 1 ? false : prev()" aria-label="Prev">
-            <span aria-hidden="true">&lt;</span>
-            <span class="sr-only">Prev</span>
-          </a>
-        </li>
-        <li class="ng2-smart-page-item page-item"
-        [ngClass]="{active: getPage() == page}" *ngFor="let page of getPages()">
-          <span class="ng2-smart-page-link page-link"
-          *ngIf="getPage() == page">{{ page }} <span class="sr-only">(current)</span></span>
-          <a class="ng2-smart-page-link page-link" href="#"
-          (click)="paginate(page)" *ngIf="getPage() != page">{{ page }}</a>
-        </li>
-
-        <li class="ng2-smart-page-item page-item"
-            [ngClass]="{disabled: getPage() == getLast()}">
-          <a class="ng2-smart-page-link page-link page-link-next" href="#"
-             (click)="getPage() == getLast() ? false : next()" aria-label="Next">
-            <span aria-hidden="true">&gt;</span>
-            <span class="sr-only">Next</span>
-          </a>
-        </li>
-        
-        <li class="ng2-smart-page-item page-item"
-        [ngClass]="{disabled: getPage() == getLast()}">
-          <a class="ng2-smart-page-link page-link" href="#"
-          (click)="getPage() == getLast() ? false : paginate(getLast())" aria-label="Last">
-            <span aria-hidden="true">&raquo;</span>
-            <span class="sr-only">Last</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-    
-    <nav *ngIf="perPageSelect && perPageSelect.length > 0" class="ng2-smart-pagination-per-page">
-      <label for="per-page">
-        Per Page:
-      </label>
-      <select (change)="onChangePerPage($event)" [(ngModel)]="currentPerPage" id="per-page">
-        <option *ngFor="let item of perPageSelect" [value]="item">{{ item }}</option>
-      </select>
-    </nav>
+    <div class="d-flex mb-4">
+      <div class="flex-grow-1">
+        <div *ngIf="perPageSelect && perPageSelect.length > 0">
+          <span class="caption mr-2">Anzeigen</span>
+          <nb-select [placeholder]="currentPerPage"
+                     (change)="onChangePerPage($event)"
+                     [(ngModel)]="currentPerPage">
+            <nb-option *ngFor="let item of perPageSelect" [value]="item">{{ item }}</nb-option>
+          </nb-select>
+          <span class="caption ml-2">von {{getCount()}}</span>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center mt-2">
+        <button nbButton ghost class="mr-1"
+                [disabled]="+getPage() === 1" (click)="+getPage() === 1 ? false : prev()" aria-label="Prev">
+          <nb-icon icon="chevron-left-outline"></nb-icon>
+          Zurück
+        </button>
+        <button nbButton
+                shape="round"
+                size="small"
+                *ngFor="let page of getPages()"
+                [status]="+getPage() === page ? 'primary' : 'basic'"
+                (click)="+getPage() === page ? false : paginate(page)"
+                class="mr-1 px-3">
+          {{ page }} </button>
+        <button nbButton [status]="+getPage() === +getLast() ? 'basic' : 'primary'" ghost
+                [disabled]="+getPage() === +getLast()" (click)="+getPage() === +getLast() ? false : next()" aria-label="Next">
+          Weiter
+          <nb-icon icon="chevron-right-outline"></nb-icon>
+        </button>
+      </div>
+    </div>
   `,
 })
 export class PagerComponent implements OnChanges {
@@ -112,6 +93,10 @@ export class PagerComponent implements OnChanges {
     }
   }
 
+  getCount(): number {
+    return this.count;
+  }
+
   shouldShow(): boolean {
     return this.source.count() > this.perPage;
   }
@@ -119,7 +104,7 @@ export class PagerComponent implements OnChanges {
   paginate(page: number): boolean {
     this.source.setPage(page);
     this.page = page;
-    this.changePage.emit({ page });
+    this.changePage.emit({page});
     return false;
   }
 

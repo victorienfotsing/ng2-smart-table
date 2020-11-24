@@ -10,6 +10,7 @@
                               [editConfirm]="editConfirm"
                               (edit)="edit.emit(row)"
                               (delete)="delete.emit(row)"
+                              (actionTriggered)="actionTriggered.emit($event)"
                               (editRowSelect)="editRowSelect.emit($event)"
                               [row]="row"
                               [source]="source">
@@ -44,7 +45,8 @@
                               [source]="source"
                               (edit)="edit.emit(row)"
                               (delete)="delete.emit(row)"
-                              (editRowSelect)="editRowSelect.emit($event)">
+                              (editRowSelect)="editRowSelect.emit($event)"
+                              (actionTriggered)="actionTriggered.emit($event)">
     </ng2-st-tbody-edit-delete>
   </td>
 </tr>
